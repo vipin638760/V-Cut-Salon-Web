@@ -4,3 +4,507 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Price Menu | V-Cut Unisex Salon Bangalore</title>
+  <meta name="description" content="V-Cut Unisex Salon complete price list. Haircut from ₹100, Hair Spa, Keratin, Waxing, Facials, Bridal Makeup & more."/>
+  <meta name="robots" content="index,follow"/>
+  <link rel="canonical" href="https://vcutsalon.in/menu.html"/>
+  <meta name="theme-color" content="#CC1111"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --p:#CC1111;--pd:#A80E0E;--pc:#FFEAEA;--opc:#410001;
+      --s:#FFFBFF;--sv:#F4DDDD;--os:#201A1A;--osv:#534343;
+      --ol:#877373;--olv:#D8C2C2;
+      --gold:#C9A84C;--gold2:#E8C96D;
+      --e1:0 1px 2px rgba(0,0,0,.1),0 2px 4px rgba(0,0,0,.07);
+      --e2:0 2px 8px rgba(0,0,0,.1),0 4px 12px rgba(0,0,0,.07);
+      --r:12px;--rsm:8px;--rf:100px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Roboto',sans-serif;background:var(--s);color:var(--os)}
+
+    /* NAV */
+    nav{position:fixed;top:0;width:100%;z-index:300;background:rgba(255,251,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--olv);box-shadow:var(--e1);height:64px;display:flex;align-items:center;padding:0 20px;gap:12px}
+    .nlogo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+    .nlogo-ic{width:38px;height:38px;border-radius:9px;background:var(--p);display:flex;align-items:center;justify-content:center}
+    .nlogo-ic svg{width:24px;height:24px}
+    .nbrand{font-family:'Google Sans',sans-serif;font-size:14px;font-weight:700;color:var(--p);letter-spacing:.5px}
+    .ntabs{display:flex;gap:4px;flex:1;justify-content:center}
+    .ntab{padding:8px 18px;border-radius:var(--rf);font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .2s;color:var(--osv);background:transparent}
+    .ntab.on{background:var(--p);color:#fff}
+    .ntab:hover:not(.on){background:var(--sv)}
+    .ncta{background:var(--p);color:#fff;border:none;border-radius:var(--rf);padding:9px 22px;font-family:'Google Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;box-shadow:var(--e1)}
+    .ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+    .ham span{width:22px;height:2px;background:var(--os);border-radius:2px;display:block}
+    #mob{display:none;position:fixed;top:64px;left:0;right:0;background:#fff;border-bottom:1px solid var(--olv);z-index:299;padding:16px;flex-direction:column;gap:4px;box-shadow:var(--e2)}
+    #mob a,#mob button{color:var(--os);text-decoration:none;font-size:14px;padding:10px 14px;border-radius:var(--rsm);font-weight:500;text-align:left;background:transparent;border:none;font-family:inherit;cursor:pointer;width:100%}
+    #mob a:hover,#mob button:hover{background:var(--sv)}
+
+    /* PAGE HEADER */
+    .page-header{background:var(--p);padding:44px 20px 52px;text-align:center;position:relative;overflow:hidden}
+    .page-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 100%,rgba(0,0,0,.12),transparent)}
+    .ph-inner{position:relative;z-index:2;max-width:600px;margin:0 auto}
+    .ph-toggle{display:inline-flex;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:var(--rf);padding:4px;margin-bottom:20px}
+    .tt{padding:10px 28px;border-radius:var(--rf);font-family:'Google Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .25s;color:rgba(255,255,255,.7);background:transparent;letter-spacing:.3px}
+    .tt.on{background:#fff;color:var(--p)}
+    .ph-title{font-family:'Google Sans',sans-serif;font-size:clamp(1.6rem,4vw,2.2rem);font-weight:700;color:#fff;margin-bottom:6px}
+    .ph-sub{font-size:14px;color:rgba(255,255,255,.75);margin-bottom:12px}
+    .ph-timing{font-size:13px;color:rgba(255,255,255,.8);font-weight:500}
+    .ph-badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:6px 18px;border-radius:var(--rf);margin-top:14px}
+
+    /* CONTENT */
+    .page-content{max-width:1080px;margin:0 auto;padding:40px 16px 60px}
+    .menu-sec{display:none;animation:fi .4s ease}
+    .menu-sec.show{display:block}
+    @keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+    /* CATEGORY */
+    .cat{margin-bottom:52px}
+    .cat-hdr{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+    .cat-ic{width:44px;height:44px;border-radius:50%;background:var(--pc);border:2px solid rgba(204,17,17,.2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+    .cat-title{font-family:'Google Sans',sans-serif;font-size:1.25rem;font-weight:600;color:var(--os)}
+    .cat-line{flex:1;height:1px;background:linear-gradient(to right,var(--olv),transparent)}
+
+    /* TABLE */
+    .pt{width:100%;border-collapse:collapse;border-radius:var(--r);overflow:hidden;box-shadow:var(--e1)}
+    .pt thead tr{background:var(--os)}
+    .pt thead th{font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.7);padding:12px 16px;text-align:left;font-weight:600;font-family:'Google Sans',sans-serif}
+    .pt thead th:not(:first-child){text-align:center}
+    .pt tbody tr{border-bottom:1px solid var(--olv);transition:background .15s;background:#fff}
+    .pt tbody tr:hover{background:#fff8f8}
+    .pt tbody tr:last-child{border-bottom:none}
+    .pt tbody td{padding:12px 16px;font-size:.88rem;color:var(--osv);vertical-align:middle}
+    .pt tbody td:not(:first-child){text-align:center;color:var(--p);font-weight:700;font-size:.85rem}
+    .pt td.dash{color:#ccc}
+    .sn{color:var(--os);font-weight:500}
+
+    /* GRID CARDS */
+    .pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+    .pc{background:#fff;border:1px solid var(--olv);border-radius:var(--rsm);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;transition:all .15s;box-shadow:var(--e1)}
+    .pc:hover{border-color:var(--p);background:#fff8f8}
+    .pn{font-size:.88rem;color:var(--os);font-weight:500}
+    .pp{font-family:'Google Sans',sans-serif;font-size:1rem;color:var(--p);font-weight:700;white-space:nowrap}
+
+    /* TWO-COL */
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .sc{background:#fff;border:1px solid var(--olv);border-radius:var(--r);padding:20px;box-shadow:var(--e1)}
+    .sc-title{font-family:'Google Sans',sans-serif;font-size:.95rem;color:var(--p);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--olv);font-weight:600}
+    .sr{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(0,0,0,.05);font-size:.87rem}
+    .sr:last-child{border-bottom:none;padding-bottom:0}
+    .sr-n{color:var(--osv)}
+    .sr-p{color:var(--p);font-weight:700;font-size:.85rem;white-space:nowrap;margin-left:12px}
+
+    /* PACKAGES */
+    .pkg-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+    .pkg{background:#fff;border:1px solid var(--olv);border-radius:var(--r);padding:20px;position:relative;overflow:hidden;box-shadow:var(--e1);transition:all .2s}
+    .pkg::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--p)}
+    .pkg:hover{box-shadow:var(--e2);border-color:var(--p)}
+    .pkg-n{font-family:'Google Sans',sans-serif;font-size:.95rem;color:var(--os);font-weight:600;margin-bottom:6px}
+    .pkg-d{font-size:.8rem;color:var(--osv);line-height:1.5;margin-bottom:12px}
+    .pkg-s{display:flex;gap:7px;flex-wrap:wrap}
+    .ps{background:var(--pc);border:1px solid rgba(204,17,17,.2);border-radius:var(--rsm);padding:6px 12px;font-size:.8rem;color:var(--opc);text-align:center}
+    .ps strong{color:var(--p);display:block;font-family:'Google Sans',sans-serif;font-size:.9rem}
+
+    /* NOTE */
+    .note{background:linear-gradient(135deg,#FFFDE7,#FFF8E1);border:1px solid #F9A825;border-radius:var(--rsm);padding:12px 16px;font-size:.82rem;color:#5D4037;margin-bottom:20px;line-height:1.6}
+    .note strong{color:#E65100}
+
+    /* FOOTER */
+    .menu-footer{background:var(--os);padding:36px 16px;text-align:center;margin-top:0}
+    .menu-footer p{color:rgba(255,255,255,.5);font-size:.85rem;margin-bottom:5px}
+    .menu-footer a{color:var(--p);text-decoration:none}
+    .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+    .cta-btn{padding:12px 26px;border-radius:var(--r);font-weight:700;font-size:.88rem;letter-spacing:.5px;text-transform:uppercase;text-decoration:none;transition:opacity .2s}
+    .cta-btn:hover{opacity:.85}
+    .cta-wa{background:#25d366;color:#fff}
+    .cta-call{background:var(--p);color:#fff}
+    .cta-back{border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.8);background:transparent}
+    .wa-fab{position:fixed;bottom:24px;right:24px;z-index:300;width:52px;height:52px;border-radius:14px;background:#25d366;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 18px rgba(37,211,102,.45);text-decoration:none;animation:flt 3s ease-in-out infinite}
+    @keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+    @media(max-width:720px){
+      .two{grid-template-columns:1fr}
+      .pt thead th,.pt tbody td{padding:9px 10px;font-size:.8rem}
+      .ntabs{display:none}.ham{display:flex}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nlogo">
+    <div class="nlogo-ic"><svg viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg"><polygon points="20,10 80,10 155,178 120,178" fill="#fff"/><polygon points="280,10 220,10 145,178 180,178" fill="#fff"/><polygon points="92,200 128,200 150,258 172,200 208,200 150,272" fill="#fff"/></svg></div>
+    <div class="nbrand">V-Cut Salon</div>
+  </a>
+  <div class="ntabs">
+    <button class="ntab on" id="nt-u" onclick="show('unisex')">Unisex Menu</button>
+    <button class="ntab" id="nt-m" onclick="show('mens')">Men's Menu</button>
+  </div>
+  <a href="index.html" style="color:var(--osv);text-decoration:none;font-size:13px;font-weight:500;padding:8px 14px;border-radius:var(--rf);transition:background .2s" onmouseover="this.style.background='var(--sv)'" onmouseout="this.style.background='transparent'">Home</a>
+  <a href="booking.html" class="ncta">Book Now</a>
+  <button class="ham" onclick="document.getElementById('mob').style.display=document.getElementById('mob').style.display==='flex'?'none':'flex'"><span></span><span></span><span></span></button>
+</nav>
+<div id="mob">
+  <button onclick="show('unisex');document.getElementById('mob').style.display='none'">Unisex Menu</button>
+  <button onclick="show('mens');document.getElementById('mob').style.display='none'">Men's Menu</button>
+  <a href="index.html">Home</a>
+  <a href="booking.html" style="background:var(--p);color:#fff;border-radius:var(--rf);text-align:center;font-weight:700">Book Now</a>
+</div>
+
+<!-- HERO -->
+<div class="page-header" style="padding-top:84px">
+  <div class="ph-inner">
+    <div class="ph-toggle">
+      <button class="tt on" id="tt-u" onclick="show('unisex')">Unisex Salon</button>
+      <button class="tt" id="tt-m" onclick="show('mens')">Men's Salon</button>
+    </div>
+    <div class="ph-title" id="ph-title">Services & Price Menu</div>
+    <div class="ph-sub" id="ph-sub">V-Cut Unisex Salon — Complete Price List</div>
+    <div class="ph-timing" id="ph-timing">🕐 <strong>Timing: 9:00 AM – 9:00 PM</strong> · Open All Days</div>
+    <div class="ph-badge">✦ All Prices Inclusive · Walk-ins Welcome · +91 98365 77807</div>
+  </div>
+</div>
+
+<div class="page-content">
+
+<!-- UNISEX MENU -->
+<div class="menu-sec show" id="menu-unisex">
+
+  <!-- HAIR STYLING -->
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">✂️</div><div class="cat-title">Hair — Styling</div><div class="cat-line"></div></div>
+    <table class="pt"><thead><tr><th style="width:50%">Service</th><th>Ladies</th><th>Gents</th></tr></thead><tbody>
+      <tr><td class="sn">Basic Hair Cut</td><td>₹400</td><td>₹150</td></tr>
+      <tr><td class="sn">Adv Hair Cut</td><td>₹700</td><td>₹250</td></tr>
+      <tr><td class="sn">Fringe / Bangs</td><td>₹200</td><td class="dash">—</td></tr>
+      <tr><td class="sn">Shaving</td><td class="dash">—</td><td>₹100</td></tr>
+      <tr><td class="sn">Beard Trimming</td><td class="dash">—</td><td>₹100</td></tr>
+      <tr><td class="sn">Baby's Basic Haircut</td><td>₹500</td><td>₹200</td></tr>
+      <tr><td class="sn">Baby Adv Haircut</td><td>₹350</td><td>₹300</td></tr>
+      <tr><td class="sn">Hair Wash with Conditioner</td><td>₹500</td><td>₹100</td></tr>
+      <tr><td class="sn">Oil Massage + Hair Wash</td><td class="dash">—</td><td>₹300</td></tr>
+      <tr><td class="sn">Head Shave</td><td class="dash">—</td><td>₹400</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- HAIR COLOUR -->
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">🎨</div><div class="cat-title">Hair Colour</div><div class="cat-line"></div></div>
+    <table class="pt"><thead><tr><th style="width:40%">Service</th><th>INOA</th><th>Masirel<br><small style="color:rgba(255,255,255,.5);font-size:.62rem">(L'Oréal)</small></th><th>Schwarzkopf<br><small style="color:rgba(255,255,255,.5);font-size:.62rem">Ammonia Free</small></th></tr></thead><tbody>
+      <tr><td class="sn">Essensity Root Touchup</td><td>₹400</td><td>₹350</td><td>₹450</td></tr>
+      <tr><td class="sn">Beard Colour</td><td class="dash">—</td><td>₹500</td><td class="dash">—</td></tr>
+      <tr><td class="sn">Beard & Moustache Colour</td><td>₹700</td><td>₹600</td><td>₹800</td></tr>
+      <tr><td class="sn">Root Touchup (upto 2 inch)</td><td>₹1,200</td><td>₹1,000</td><td>₹1,400</td></tr>
+      <tr><td class="sn">Schwarzkopf Essensity Global</td><td>₹1,200</td><td>₹1,000</td><td>₹1,400</td></tr>
+      <tr><td class="sn">Schwarzkopf Essensity Fashion</td><td>₹1,400</td><td>₹4,000 / ₹1,200</td><td>₹1,499 / ₹1,600</td></tr>
+      <tr><td class="sn">Root Touchup (upto 4 inches)</td><td>₹2,000</td><td>₹3,500</td><td>₹4,000</td></tr>
+      <tr><td class="sn">Global Colour Short</td><td>₹2,500</td><td>₹4,000</td><td>₹5,000</td></tr>
+      <tr><td class="sn">Global Colour Medium / Fashion</td><td>₹2,499</td><td>₹2,799</td><td>₹2,999</td></tr>
+      <tr><td class="sn">Highlights (Per Strip) / Cap Colour</td><td>₹3,000</td><td>₹3,500</td><td>₹4,000</td></tr>
+      <tr><td class="sn">Colour High Light Balayage</td><td>₹2,999</td><td>₹3,499</td><td>₹3,899</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- HAIR TEXTURES -->
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">🌊</div><div class="cat-title">Hair Textures</div><div class="cat-line"></div></div>
+    <div class="note"><strong>S = Short &nbsp;|&nbsp; M = Medium &nbsp;|&nbsp; L = Long</strong> — Price varies by hair length</div>
+    <div class="pkg-g">
+      <div class="pkg"><div class="pkg-n">Keratin Treatment (GK)</div><div class="pkg-d">Protein-based treatment for frizzy-free hair</div><div class="pkg-s"><div class="ps"><strong>₹3,499</strong>Short</div><div class="ps"><strong>₹4,999</strong>Medium</div><div class="ps"><strong>₹5,999</strong>Long</div></div></div>
+      <div class="pkg"><div class="pkg-n">Botox Treatment</div><div class="pkg-d">Advanced hair smoothing & shine restoration</div><div class="pkg-s"><div class="ps"><strong>₹3,999</strong>Short</div><div class="ps"><strong>₹4,999</strong>Medium</div><div class="ps"><strong>₹6,999</strong>Long</div></div></div>
+      <div class="pkg"><div class="pkg-n">Nano Plastia</div><div class="pkg-d">Premium nano hair repair & smoothing</div><div class="pkg-s"><div class="ps"><strong>₹3,999</strong>Short</div><div class="ps"><strong>₹4,999</strong>Medium</div><div class="ps"><strong>₹6,999</strong>Long</div></div></div>
+      <div class="pkg"><div class="pkg-n">Smoothening / Straightening</div><div class="pkg-d">Long-lasting silky smooth hair</div><div class="pkg-s"><div class="ps"><strong>₹2,599</strong>Short</div><div class="ps"><strong>₹3,199</strong>Medium</div><div class="ps"><strong>₹4,999</strong>Long</div></div></div>
+    </div>
+  </div>
+
+  <!-- HAIR SPA -->
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">💆</div><div class="cat-title">Hair Spa</div><div class="cat-line"></div></div>
+    <table class="pt"><thead><tr><th>Service</th><th>Ladies (S / M / L)</th><th>Gents</th></tr></thead><tbody>
+      <tr><td class="sn">L'Oréal Deep Nourishing</td><td>₹1,200 / ₹1,400 / ₹1,600</td><td>₹700</td></tr>
+      <tr><td class="sn">Keratine Restore Hair Spa</td><td>₹1,500 / ₹1,700 / ₹1,800</td><td>₹900</td></tr>
+      <tr><td class="sn">Anti Dandruff Treatment + Hair Spa</td><td>₹1,500 / ₹1,700 / ₹1,800</td><td>₹1,000</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- STRAIGHTENING & STYLING -->
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">✨</div><div class="cat-title">Straightening & Hair Styling</div><div class="cat-line"></div></div>
+    <div class="two">
+      <div class="sc"><div class="sc-title">Straightening</div>
+        <div class="sr"><span class="sr-n">L'Oréal</span><span class="sr-p">₹2,999 – ₹6,999</span></div>
+        <div class="sr"><span class="sr-n">Schwarzkopf</span><span class="sr-p">₹3,599 – ₹7,599</span></div>
+      </div>
+      <div class="sc"><div class="sc-title">Hair Styling</div>
+        <div class="sr"><span class="sr-n">Blowdry: Straight & Smooth</span><span class="sr-p">₹500</span></div>
+        <div class="sr"><span class="sr-n">Tong</span><span class="sr-p">₹500</span></div>
+        <div class="sr"><span class="sr-n">Hot Roller</span><span class="sr-p">₹600</span></div>
+        <div class="sr"><span class="sr-n">Blowdry: In Curl & Out Curl</span><span class="sr-p">₹700</span></div>
+        <div class="sr"><span class="sr-n">Curls & Waves</span><span class="sr-p">₹700</span></div>
+        <div class="sr"><span class="sr-n">Iron</span><span class="sr-p">₹800</span></div>
+        <div class="sr"><span class="sr-n">Hair Updo</span><span class="sr-p">₹1,000</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FACIALS -->
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">🌸</div><div class="cat-title">Facials</div><div class="cat-line"></div></div>
+    <div class="pg">
+      <div class="pc"><span class="pn">Nature Gentle Facial</span><span class="pp">₹700</span></div>
+      <div class="pc"><span class="pn">Fruit Facial</span><span class="pp">₹900</span></div>
+      <div class="pc"><span class="pn">Korean Glass Skin Facial</span><span class="pp">₹1,000</span></div>
+      <div class="pc"><span class="pn">VLCC Gold</span><span class="pp">₹1,100</span></div>
+      <div class="pc"><span class="pn">Lotus Gold</span><span class="pp">₹1,100</span></div>
+      <div class="pc"><span class="pn">Lotus Diamond</span><span class="pp">₹1,200</span></div>
+      <div class="pc"><span class="pn">Herbal Wine</span><span class="pp">₹1,300</span></div>
+      <div class="pc"><span class="pn">Raaga Gold</span><span class="pp">₹1,400</span></div>
+      <div class="pc"><span class="pn">Raaga Anti-Acne</span><span class="pp">₹1,400</span></div>
+      <div class="pc"><span class="pn">Aroma Magic Pearl</span><span class="pp">₹1,400</span></div>
+      <div class="pc"><span class="pn">VLCC Pearl</span><span class="pp">₹1,500</span></div>
+      <div class="pc"><span class="pn">Lotus Radiant Pearl</span><span class="pp">₹1,500</span></div>
+      <div class="pc"><span class="pn">Raaga Platinum</span><span class="pp">₹1,500</span></div>
+      <div class="pc"><span class="pn">Raaga Antiaging</span><span class="pp">₹1,400</span></div>
+      <div class="pc"><span class="pn">Raaga Fairness</span><span class="pp">₹1,600</span></div>
+      <div class="pc"><span class="pn">Shahnaz Husain Gold</span><span class="pp">₹1,700</span></div>
+      <div class="pc"><span class="pn">Lotus Adv Skin Whitening</span><span class="pp">₹1,800</span></div>
+      <div class="pc"><span class="pn">Kanpeki Pro Hydra (7 Steps)</span><span class="pp">₹1,800</span></div>
+      <div class="pc"><span class="pn">Korean Glass Skin (Adv)</span><span class="pp">₹2,200</span></div>
+      <div class="pc"><span class="pn">O3+ Shine & Glow</span><span class="pp">₹2,200</span></div>
+      <div class="pc"><span class="pn">Shahnaz Husain Diamond</span><span class="pp">₹2,300</span></div>
+      <div class="pc"><span class="pn">Lotus Adv Anti Aging</span><span class="pp">₹2,500</span></div>
+      <div class="pc"><span class="pn">Lotus Adv Skin Radiance</span><span class="pp">₹2,500</span></div>
+      <div class="pc"><span class="pn">O3+ Bridal</span><span class="pp">₹2,700</span></div>
+    </div>
+  </div>
+
+  <!-- WAXING -->
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">🌿</div><div class="cat-title">Waxing</div><div class="cat-line"></div></div>
+    <div class="two">
+      <div>
+        <div class="sc" style="margin-bottom:14px"><div class="sc-title">Rica Wax</div>
+          <div class="sr"><span class="sr-n">Chin / Upper Lip</span><span class="sr-p">₹50 each</span></div>
+          <div class="sr"><span class="sr-n">Under Arms</span><span class="sr-p">₹150</span></div>
+          <div class="sr"><span class="sr-n">Half Leg</span><span class="sr-p">₹350</span></div>
+          <div class="sr"><span class="sr-n">Full Hand</span><span class="sr-p">₹450</span></div>
+          <div class="sr"><span class="sr-n">Full Face</span><span class="sr-p">₹400</span></div>
+          <div class="sr"><span class="sr-n">Full Leg</span><span class="sr-p">₹550</span></div>
+          <div class="sr"><span class="sr-n">Full Back / Full Front</span><span class="sr-p">₹650 each</span></div>
+          <div class="sr"><span class="sr-n">Bikini Wax</span><span class="sr-p">₹2,200</span></div>
+          <div class="sr"><span class="sr-n">Full Body</span><span class="sr-p">₹2,500</span></div>
+        </div>
+        <div class="sc"><div class="sc-title">Rica Wax (Premium)</div>
+          <div class="sr"><span class="sr-n">Chin / Upper Lip</span><span class="sr-p">₹100 each</span></div>
+          <div class="sr"><span class="sr-n">Under Arms</span><span class="sr-p">₹200</span></div>
+          <div class="sr"><span class="sr-n">Half Leg</span><span class="sr-p">₹400</span></div>
+          <div class="sr"><span class="sr-n">Full Hand</span><span class="sr-p">₹500</span></div>
+          <div class="sr"><span class="sr-n">Full Face</span><span class="sr-p">₹500</span></div>
+          <div class="sr"><span class="sr-n">Full Leg</span><span class="sr-p">₹600</span></div>
+          <div class="sr"><span class="sr-n">Full Back / Full Front</span><span class="sr-p">₹700 each</span></div>
+          <div class="sr"><span class="sr-n">Bikini Wax</span><span class="sr-p">₹2,500</span></div>
+          <div class="sr"><span class="sr-n">Full Body</span><span class="sr-p">₹3,000</span></div>
+        </div>
+      </div>
+      <div class="sc"><div class="sc-title">Brazilian Wax</div>
+        <div class="sr"><span class="sr-n">Upper Lip</span><span class="sr-p">₹100</span></div>
+        <div class="sr"><span class="sr-n">Chin</span><span class="sr-p">₹100</span></div>
+        <div class="sr"><span class="sr-n">Under Arms</span><span class="sr-p">₹200</span></div>
+        <div class="sr"><span class="sr-n">Side Face</span><span class="sr-p">₹250</span></div>
+        <div class="sr"><span class="sr-n">Full Face</span><span class="sr-p">₹500</span></div>
+        <div class="sr"><span class="sr-n">Bikini Wax</span><span class="sr-p">₹3,000</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THREADING -->
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">🧵</div><div class="cat-title">Threading</div><div class="cat-line"></div></div>
+    <div class="pg">
+      <div class="pc"><span class="pn">Chin</span><span class="pp">₹30</span></div>
+      <div class="pc"><span class="pn">Upper Lip</span><span class="pp">₹30</span></div>
+      <div class="pc"><span class="pn">Lower Lip</span><span class="pp">₹30</span></div>
+      <div class="pc"><span class="pn">Forehead</span><span class="pp">₹40</span></div>
+      <div class="pc"><span class="pn">Eyebrows</span><span class="pp">₹50</span></div>
+      <div class="pc"><span class="pn">Side Locks</span><span class="pp">₹60</span></div>
+      <div class="pc"><span class="pn">Full Face</span><span class="pp">₹250</span></div>
+    </div>
+  </div>
+
+  <!-- BLEACH -->
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">⬡</div><div class="cat-title">Bleach</div><div class="cat-line"></div></div>
+    <table class="pt"><thead><tr><th>Service</th><th>Oxylife</th><th>Gold</th></tr></thead><tbody>
+      <tr><td class="sn">Back</td><td>₹500</td><td>₹450</td></tr>
+      <tr><td class="sn">Chest</td><td>₹500</td><td>₹450</td></tr>
+      <tr><td class="sn">Face & Neck</td><td>₹600</td><td>₹500</td></tr>
+      <tr><td class="sn">Full Arms</td><td>₹600</td><td>₹550</td></tr>
+      <tr><td class="sn">Full Legs</td><td>₹700</td><td>₹600</td></tr>
+      <tr><td class="sn">Full Body</td><td>₹2,000</td><td>₹1,500</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- CLEAN-UP & DE-TAN -->
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">🌞</div><div class="cat-title">Clean-Up & De-Tan</div><div class="cat-line"></div></div>
+    <div class="two">
+      <div class="sc"><div class="sc-title">Clean-Up</div>
+        <div class="sr"><span class="sr-n">Natures Clean-Up</span><span class="sr-p">₹500</span></div>
+        <div class="sr"><span class="sr-n">Fruit Clean-Up</span><span class="sr-p">₹600</span></div>
+        <div class="sr"><span class="sr-n">Lotus Clean-Up</span><span class="sr-p">₹700</span></div>
+        <div class="sr"><span class="sr-n">O3+ Tan Clear Clean-Up</span><span class="sr-p">₹1,000</span></div>
+      </div>
+      <div class="sc"><div class="sc-title">De-Tan</div>
+        <div class="sr"><span class="sr-n">Raaga / Blouse Line / Feet</span><span class="sr-p">₹400</span></div>
+        <div class="sr"><span class="sr-n">Half Arms</span><span class="sr-p">₹450</span></div>
+        <div class="sr"><span class="sr-n">Under Arms</span><span class="sr-p">₹500</span></div>
+        <div class="sr"><span class="sr-n">Specific / O3+</span><span class="sr-p">₹550 / ₹600</span></div>
+        <div class="sr"><span class="sr-n">Half Legs / Full Arms</span><span class="sr-p">₹600</span></div>
+        <div class="sr"><span class="sr-n">Face and Neck</span><span class="sr-p">₹650</span></div>
+        <div class="sr"><span class="sr-n">Full Legs / Full Back</span><span class="sr-p">₹800</span></div>
+        <div class="sr"><span class="sr-n">Full Body</span><span class="sr-p">₹3,000</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MANICURE & PEDICURE -->
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">💅</div><div class="cat-title">Manicure & Pedicure</div><div class="cat-line"></div></div>
+    <table class="pt"><thead><tr><th>Service</th><th>Manicure</th><th>Pedicure</th></tr></thead><tbody>
+      <tr><td class="sn">Cut & File</td><td>₹150</td><td>₹200</td></tr>
+      <tr><td class="sn">Cut, File & Polish</td><td>₹200</td><td>₹250</td></tr>
+      <tr><td class="sn">Sea Blue</td><td>₹500</td><td>₹700</td></tr>
+      <tr><td class="sn">Aroma Magic</td><td>₹600</td><td>₹800</td></tr>
+      <tr><td class="sn">Raaga</td><td>₹600</td><td>₹1,000</td></tr>
+      <tr><td class="sn">Lotus Rose</td><td>₹700</td><td>₹1,000</td></tr>
+      <tr><td class="sn">Bombini</td><td>₹800</td><td>₹1,500</td></tr>
+      <tr><td class="sn">Heel Peel Treatment</td><td class="dash">—</td><td>₹2,000</td></tr>
+      <tr><td class="sn">Foot Massage</td><td class="dash">—</td><td>₹500</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- MAKE-UP -->
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">💄</div><div class="cat-title">Make-Up</div><div class="cat-line"></div></div>
+    <div class="pg">
+      <div class="pc"><span class="pn">Saree Drapping</span><span class="pp">₹500</span></div>
+      <div class="pc"><span class="pn">Eye Makeup</span><span class="pp">₹700</span></div>
+      <div class="pc"><span class="pn">Day Makeup</span><span class="pp">₹1,500</span></div>
+      <div class="pc"><span class="pn">Party Makeup</span><span class="pp">₹2,500</span></div>
+      <div class="pc"><span class="pn">Evening Makeup</span><span class="pp">₹3,000</span></div>
+      <div class="pc"><span class="pn">Bridal Makeup</span><span class="pp">₹10,000+</span></div>
+    </div>
+  </div>
+
+</div><!-- end unisex -->
+
+<!-- MEN'S MENU -->
+<div class="menu-sec" id="menu-mens">
+
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">💈</div><div class="cat-title">Hair & Beard</div><div class="cat-line"></div></div>
+    <div class="pg">
+      <div class="pc"><span class="pn">Hair Cut</span><span class="pp">₹100</span></div>
+      <div class="pc"><span class="pn">Shaving / Trimming</span><span class="pp">₹50</span></div>
+      <div class="pc"><span class="pn">Head Massage</span><span class="pp">₹150</span></div>
+      <div class="pc"><span class="pn">Hair Spa (L'Oréal)</span><span class="pp">₹500</span></div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">🎨</div><div class="cat-title">Hair Colour</div><div class="cat-line"></div></div>
+    <div class="pg">
+      <div class="pc"><span class="pn">Streax Hair Colour</span><span class="pp">₹350</span></div>
+      <div class="pc"><span class="pn">L'Oréal Masirel Hair Colour</span><span class="pp">₹450</span></div>
+      <div class="pc"><span class="pn">L'Oréal INOA Hair Colour</span><span class="pp">₹500</span></div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">🌸</div><div class="cat-title">Facial</div><div class="cat-line"></div></div>
+    <div class="pg">
+      <div class="pc"><span class="pn">Lotus Anti Tan</span><span class="pp">₹700</span></div>
+      <div class="pc"><span class="pn">Lotus Gold Facial</span><span class="pp">₹850</span></div>
+      <div class="pc"><span class="pn">Herbal Facial</span><span class="pp">₹800</span></div>
+      <div class="pc"><span class="pn">Lotus Diamond Facial</span><span class="pp">₹1,200</span></div>
+      <div class="pc"><span class="pn">VLCC Diamond Facial</span><span class="pp">₹1,100</span></div>
+      <div class="pc"><span class="pn">O3+ Facial</span><span class="pp">₹1,500</span></div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">👐</div><div class="cat-title">Face Massage</div><div class="cat-line"></div></div>
+    <div class="pg">
+      <div class="pc"><span class="pn">Lotus Massage</span><span class="pp">₹300</span></div>
+      <div class="pc"><span class="pn">Lotus Scrub</span><span class="pp">₹300</span></div>
+      <div class="pc"><span class="pn">Massage + Scrub</span><span class="pp">₹450</span></div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">🌞</div><div class="cat-title">D-Tan with Milk Wash</div><div class="cat-line"></div></div>
+    <div class="two">
+      <div class="sc"><div class="sc-title">D-Tan</div>
+        <div class="sr"><span class="sr-n">VLCC D-Tan</span><span class="sr-p">₹250</span></div>
+        <div class="sr"><span class="sr-n">Raaga D-Tan</span><span class="sr-p">₹400</span></div>
+        <div class="sr"><span class="sr-n">O3+ D-Tan</span><span class="sr-p">₹500</span></div>
+      </div>
+      <div class="sc"><div class="sc-title">D-Tan + Scrub</div>
+        <div class="sr"><span class="sr-n">VLCC D-Tan + Scrub</span><span class="sr-p">₹400</span></div>
+        <div class="sr"><span class="sr-n">Raaga D-Tan + Scrub</span><span class="sr-p">₹550</span></div>
+        <div class="sr"><span class="sr-n">O3+ D-Tan + Scrub</span><span class="sr-p">₹600</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat">
+    <div class="cat-hdr"><div class="cat-ic">⭐</div><div class="cat-title">Special Combos</div><div class="cat-line"></div></div>
+    <div class="pkg-g">
+      <div class="pkg"><div class="pkg-n">Combo Basic</div><div class="pkg-d">Hair Cut + Shaving + Face Massage</div><div class="pkg-s"><div class="ps"><strong>₹400</strong>Combo</div></div></div>
+      <div class="pkg"><div class="pkg-n">Combo Premium</div><div class="pkg-d">Hair Cut + Shaving + Face Massage (Premium)</div><div class="pkg-s"><div class="ps"><strong>₹500</strong>Combo</div></div></div>
+    </div>
+  </div>
+
+</div><!-- end mens -->
+
+</div><!-- page-content -->
+
+<!-- FOOTER -->
+<div class="menu-footer">
+  <div style="margin-bottom:16px">
+    <svg viewBox="0 0 300 320" height="60" xmlns="http://www.w3.org/2000/svg"><polygon points="20,10 80,10 155,178 120,178" fill="#CC1111"/><polygon points="280,10 220,10 145,178 180,178" fill="#CC1111"/><text x="150" y="112" text-anchor="middle" font-family="Georgia,serif" font-size="30" font-weight="900" fill="#fff" letter-spacing="5">V-CUT</text><polygon points="92,200 128,200 150,258 172,200 208,200 150,272" fill="#CC1111"/><text x="150" y="308" text-anchor="middle" font-family="Georgia,serif" font-size="16" font-weight="700" fill="#fff" letter-spacing="7">UNISEX SALON</text></svg>
+  </div>
+  <p>© 2025 V-Cut Salon · <a href="https://vcutsalon.in">vcutsalon.in</a> · 15 Branches Across Bangalore</p>
+  <p style="margin-top:4px;font-size:.76rem">Prices subject to change · Contact your nearest branch for current offers</p>
+  <div class="cta-row">
+    <a href="https://wa.me/919836577807" target="_blank" class="cta-btn cta-wa">💬 WhatsApp</a>
+    <a href="tel:+919836577807" class="cta-btn cta-call">📞 +91 98365 77807</a>
+    <a href="index.html#locations" class="cta-btn cta-back">📍 Find Branch</a>
+  </div>
+</div>
+
+<a href="https://wa.me/919836577807" class="wa-fab" target="_blank">💬</a>
+
+<script>
+function show(t){
+  document.querySelectorAll('.menu-sec').forEach(s=>s.classList.remove('show'));
+  document.getElementById('menu-'+t).classList.add('show');
+  ['u','m'].forEach(x=>{
+    document.getElementById('tt-'+x).classList.remove('on');
+    document.getElementById('nt-'+x).classList.remove('on');
+  });
+  const k=t==='unisex'?'u':'m';
+  document.getElementById('tt-'+k).classList.add('on');
+  document.getElementById('nt-'+k).classList.add('on');
+  if(t==='unisex'){
+    document.getElementById('ph-sub').textContent='V-Cut Unisex Salon — Complete Price List';
+    document.getElementById('ph-timing').innerHTML='🕐 <strong>Timing: 9:00 AM – 9:00 PM</strong> · Open All Days';
+  } else {
+    document.getElementById('ph-sub').textContent="V-Cut Men's Salon — Complete Price List";
+    document.getElementById('ph-timing').innerHTML='🕐 <strong>Timing: 8:00 AM – 9:30 PM</strong> · Open All Days';
+  }
+}
+</script>
+</body>
+</html>
