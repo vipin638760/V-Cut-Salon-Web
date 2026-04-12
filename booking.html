@@ -353,9 +353,25 @@
     <div class="succ" id="succCard">
       <div class="s-icon">🎉</div>
       <div class="s-title">Appointment Confirmed!</div>
-      <div class="s-desc">Saved to our system. Tap below for WhatsApp confirmation with your booking details & location.</div>
+      <div class="s-desc">Your booking is saved successfully!</div>
       <div class="s-det" id="succDet"></div>
-      <a href="#" class="wa-btn" id="waLink" target="_blank">💬 Get WhatsApp Confirmation</a>
+
+      <!-- CUSTOMER: Save/Share their booking -->
+      <div style="background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.25);border-radius:var(--r);padding:14px;margin-bottom:12px">
+        <div style="font-size:.72rem;color:#88ffb0;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;font-weight:700">📲 Your Confirmation</div>
+        <p style="font-size:.8rem;color:#aaa;margin-bottom:10px">You will receive a WhatsApp confirmation from <strong style="color:#fff">+91 98365 77807</strong> shortly.</p>
+        <a href="#" class="wa-btn" id="waLink" target="_blank" style="width:100%;justify-content:center;box-sizing:border-box;background:#128c7e">💬 Message Us on WhatsApp</a>
+      </div>
+
+      <!-- ADMIN: Send confirmation to customer -->
+      <div style="background:rgba(204,17,17,.08);border:1px solid rgba(204,17,17,.2);border-radius:var(--r);padding:14px;margin-bottom:16px">
+        <div style="font-size:.72rem;color:#ff9999;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;font-weight:700">📣 Admin — Send Confirmation to Customer</div>
+        <p style="font-size:.78rem;color:#888;margin-bottom:10px">Tap below to send the booking confirmation to the customer from your salon WhatsApp number.</p>
+        <div style="display:flex;flex-direction:column;gap:8px" id="adminNotify">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
       <div class="sa">
         <button class="sa-btn" onclick="gp2('history')">View My Bookings</button>
         <button class="sa-btn" onclick="resetForm()">Book Another</button>
@@ -503,11 +519,56 @@ window._loadHistory=async function(){
     return;
   }
   c.innerHTML='<div class="ld">⏳ Loading your bookings...</div>';
+
+  // Try Google Sheets first (works without Firestore rules)
+  try{
+    const res=await fetch(SHEET+'?t='+Date.now());
+    const json=await res.json();
+    if(json.success&&json.bookings){
+      // Match by email OR phone
+      const userPhone=(uProf?.phone||'').replace(/\D/g,'');
+      const userEmail=CU.email||'';
+      let bks=json.bookings.filter(b=>{
+        const bp=(b.Phone||b.phone||b.userPhone||'').replace(/\D/g,'');
+        const be=(b.Email||b.email||b.userEmail||'');
+        return(userPhone&&bp.endsWith(userPhone.slice(-10)))||(userEmail&&be===userEmail);
+      }).reverse();
+
+      if(!bks.length){
+        // Fallback to Firestore
+        throw new Error('no sheet matches');
+      }
+      c.innerHTML='<div class="hl">'+bks.map(b=>{
+        const svc  = b.Service||b.service||'';
+        const br   = b.Branch||b.branch||'';
+        const date = b.Date||b.date||'';
+        const slot = b.Time||b.slot||'';
+        const note = b.Note||b.note||'';
+        const id   = b.ID||b.id||'';
+        const btype= (b.branchType||b.Type||'').toLowerCase();
+        const df   = date?new Date(date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):date;
+        return`<div class="hi-i"><span class="hi-st">Confirmed</span>
+          <div class="hi-s">${svc}</div>
+          <div class="hi-d">
+            <strong>📍</strong> ${br} (${btype==='unisex'?'Unisex':"Men's"})<br>
+            <strong>📅</strong> ${df} at ${slot}<br>
+            <strong>🔖</strong> ${id}${note?`<br><strong>📝</strong> ${note}`:''}
+          </div>
+        </div>`;
+      }).join('')+'</div>';
+      return;
+    }
+  }catch(sheetErr){}
+
+  // Fallback: try Firestore
   try{
     const q=query(collection(db,'bookings'),where('userId','==',CU.uid),orderBy('createdAt','desc'));
     const snap=await getDocs(q);
     const bks=snap.docs.map(d=>d.data());
-    if(!bks.length){c.innerHTML='<div class="card"><div style="text-align:center;padding:18px;color:var(--muted)">📭 No bookings yet.<br><br><button class="nbtn nr" onclick="gp2(\'book\')">Book Now</button></div></div>';return;}
+    if(!bks.length){
+      c.innerHTML='<div class="card"><div style="text-align:center;padding:18px;color:var(--muted)">📭 No bookings yet.<br><br><button class="nbtn nr" onclick="gp2(\'book\')">Book Now</button></div></div>';
+      return;
+    }
     c.innerHTML='<div class="hl">'+bks.map(b=>{
       const df=b.date?new Date(b.date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):b.date;
       return`<div class="hi-i"><span class="hi-st">${b.status||'Confirmed'}</span>
@@ -515,7 +576,9 @@ window._loadHistory=async function(){
         <div class="hi-d"><strong>📍</strong> ${b.branch} (${b.branchType==='unisex'?'Unisex':"Men's"})<br><strong>📅</strong> ${df} at ${b.slot}<br><strong>🔖</strong> ${b.id}${b.note?`<br><strong>📝</strong> ${b.note}`:''}</div>
       </div>`;
     }).join('')+'</div>';
-  }catch(e){c.innerHTML='<div class="nd">❌ Could not load bookings.</div>';}
+  }catch(e){
+    c.innerHTML='<div class="nd">❌ Could not load bookings. Please update Firestore rules.</div>';
+  }
 };
 
 // ══ ADMIN DASHBOARD ══
@@ -574,36 +637,100 @@ async function loadBookingsTab(){
 }
 
 window.fetchBks=async function(){
+  const list=document.getElementById('bkList');
+  list.innerHTML='<div class="ld">⏳ Loading from Google Sheets...</div>';
   try{
+    // Pull ALL bookings from Google Sheets
+    const res=await fetch(SHEET+'?t='+Date.now());
+    const json=await res.json();
+    if(!json.success) throw new Error('Sheet error');
+
+    let all=json.bookings||[];
+
+    // Filter by date if selected
     const dv=document.getElementById('aDate')?.value;
-    let q2=dv?query(collection(db,'bookings'),where('date','==',dv),orderBy('createdAt','desc')):query(collection(db,'bookings'),orderBy('createdAt','desc'));
-    const snap=await getDocs(q2);
-    const all=snap.docs.map(d=>({...d.data(),_id:d.id}));
-    window._aData=all;
-    const allS=await getDocs(collection(db,'bookings'));
-    const allBk=allS.docs.map(d=>d.data());
+    const filtered=dv?all.filter(b=>{
+      const bdate=(b.Date||b.date||'').toString().trim();
+      return bdate===dv;
+    }):all;
+
+    // Stats from ALL bookings
     const td=new Date().toISOString().split('T')[0];
     const wk=new Date(Date.now()-7*864e5).toISOString().split('T')[0];
-    document.getElementById('s1').textContent=allBk.length;
-    document.getElementById('s2').textContent=allBk.filter(b=>b.date===td).length;
-    document.getElementById('s3').textContent=allBk.filter(b=>b.date>=wk).length;
-    document.getElementById('s4').textContent=[...new Set(allBk.map(b=>b.branch))].length;
-    const list=document.getElementById('bkList');
-    if(!all.length){list.innerHTML='<div class="nd">📭 No bookings found.</div>';return;}
-    list.innerHTML='<div style="display:flex;flex-direction:column;gap:8px">'+all.map(b=>{
-      const df=b.date?new Date(b.date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):b.date;
-      const wn=(b.userPhone||b.phone||'').replace(/\D/g,'').replace(/^(\d{10})$/,'91$1');
-      const bt=b.branchType==='unisex'?'Unisex':"Men's";
-      const msg=`Hi ${b.userName||b.name}! Reminder: Your V-Cut ${bt} appointment on ${df} at ${b.slot} at ${b.branch}. See you! ✂️`;
+    document.getElementById('s1').textContent=all.length;
+    document.getElementById('s2').textContent=all.filter(b=>(b.Date||b.date||'').toString().trim()===td).length;
+    document.getElementById('s3').textContent=all.filter(b=>(b.Date||b.date||'').toString().trim()>=wk).length;
+    document.getElementById('s4').textContent=[...new Set(all.map(b=>b.Branch||b.branch||''))].filter(Boolean).length;
+
+    window._aData=filtered;
+
+    if(!filtered.length){
+      list.innerHTML='<div class="nd">📭 No bookings found for this date.</div>';
+      return;
+    }
+
+    list.innerHTML='<div style="display:flex;flex-direction:column;gap:8px">'+[...filtered].reverse().map(b=>{
+      const name  = b.Name||b.name||b.userName||'Guest';
+      const phone = b.Phone||b.phone||b.userPhone||'';
+      const branch= b.Branch||b.branch||'';
+      const svc   = b.Service||b.service||'';
+      const date  = b.Date||b.date||'';
+      const slot  = b.Time||b.slot||'';
+      const note  = b.Note||b.note||'';
+      const id    = b.ID||b.id||'';
+      const btype = (b.branchType||b.Type||'').toLowerCase();
+      const bt    = btype==='unisex'?'Unisex':"Men's";
+      const df    = date?new Date(date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):date;
+      const wn    = phone.replace(/\D/g,'').replace(/^(\d{10})$/,'91$1');
+
+      // Build customer confirmation message
+      const isMens = btype!=='unisex';
+      const brType = isMens?"Men's Salon":"Unisex Salon";
+      const svcIcon= isMens?'🪒':'💇‍♀️';
+      const custMsg=`Hello ${name}! 👋\n\nYour *V-Cut ${brType}* appointment is ✅ *CONFIRMED!*\n\n━━━━━━━━━━━━━━━━━━━━\n${svcIcon} *BOOKING DETAILS*\n━━━━━━━━━━━━━━━━━━━━\n\n📍 *Branch:* ${branch}\n🏷️ *Type:* ${brType}\n💇 *Service:* ${svc}\n📅 *Date:* ${df}\n⏰ *Time:* ${slot}\n🔖 *Booking ID:* ${id}${note?`\n📝 *Note:* ${note}`:''}\n\n━━━━━━━━━━━━━━━━━━━━\n• Arrive 5 mins early\n• Show Booking ID at reception\n• Changes: +91 98365 77807\n━━━━━━━━━━━━━━━━━━━━\n\nWe are excited to see you! 🌟\n${isMens?'Look sharp. Feel confident. 💪':'Look beautiful. Feel amazing. ✨'}\n\nThank you for choosing *V-Cut Salon* 💈\n_Bangalore's Most Trusted Salon Chain_\n🌐 vcutsalon.in`;
+
+      const reminderMsg=`Hi ${name}! 👋 Reminder: Your V-Cut appointment is on ${df} at ${slot} at ${branch}. See you! ✂️\nvcutsalon.in`;
+
       return`<div class="bk">
-        <div class="bk-n">${b.userName||b.name||'Guest'} <span style="font-size:.66rem;color:#555;font-weight:400">#${b.id}</span></div>
-        <div class="bk-d"><strong>📍</strong> ${b.branch} (${bt}) · <strong>💇</strong> ${b.service}<br><strong>📅</strong> ${df} at ${b.slot} · <strong>📞</strong> ${b.userPhone||b.phone||'—'}${b.note?`<br><strong>📝</strong> ${b.note}`:''}</div>
+        <div class="bk-n">${name} <span style="font-size:.66rem;color:#555;font-weight:400">#${id}</span></div>
+        <div class="bk-d">
+          <strong>📍</strong> ${branch} (${bt}) · <strong>💇</strong> ${svc}<br>
+          <strong>📅</strong> ${df} at ${slot} · <strong>📞</strong> ${phone||'—'}
+          ${note?`<br><strong>📝</strong> ${note}`:''}
+        </div>
         <div class="bk-ac">
-          ${wn?`<a class="aw" href="https://wa.me/${wn}?text=${encodeURIComponent(msg)}" target="_blank">💬 WA</a>`:''}
-          ${(b.userPhone||b.phone)?`<a class="ac" href="tel:${b.userPhone||b.phone}">📞 Call</a>`:''}
-        </div></div>`;
+          ${wn?`<a class="aw" href="https://wa.me/${wn}?text=${encodeURIComponent(custMsg)}" target="_blank">💬 Send Confirmation</a>`:''}
+          ${wn?`<a class="aw" style="background:#075e54" href="https://wa.me/${wn}?text=${encodeURIComponent(reminderMsg)}" target="_blank">🔔 Reminder</a>`:''}
+          ${phone?`<a class="ac" href="tel:${phone}">📞 Call</a>`:''}
+        </div>
+      </div>`;
     }).join('')+'</div>';
-  }catch(e){document.getElementById('bkList').innerHTML='<div class="nd">❌ Error. Check Firestore rules.</div>';}
+
+  }catch(e){
+    // Fallback to Firestore if Sheets fails
+    try{
+      const dv=document.getElementById('aDate')?.value;
+      let q2=dv?query(collection(db,'bookings'),where('date','==',dv),orderBy('createdAt','desc')):query(collection(db,'bookings'),orderBy('createdAt','desc'));
+      const snap=await getDocs(q2);
+      const all=snap.docs.map(d=>({...d.data(),_id:d.id}));
+      window._aData=all;
+      if(!all.length){list.innerHTML='<div class="nd">📭 No bookings found.</div>';return;}
+      list.innerHTML='<div style="display:flex;flex-direction:column;gap:8px">'+all.map(b=>{
+        const df=b.date?new Date(b.date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):b.date;
+        const wn=(b.userPhone||b.phone||'').replace(/\D/g,'').replace(/^(\d{10})$/,'91$1');
+        const bt=b.branchType==='unisex'?'Unisex':"Men's";
+        return`<div class="bk">
+          <div class="bk-n">${b.userName||b.name||'Guest'} <span style="font-size:.66rem;color:#555">#${b.id}</span></div>
+          <div class="bk-d"><strong>📍</strong> ${b.branch} (${bt}) · <strong>💇</strong> ${b.service}<br><strong>📅</strong> ${df} at ${b.slot} · <strong>📞</strong> ${b.userPhone||b.phone||'—'}</div>
+          <div class="bk-ac">
+            ${wn?`<a class="aw" href="https://wa.me/${wn}" target="_blank">💬 WA</a>`:''}
+            ${(b.userPhone||b.phone)?`<a class="ac" href="tel:${b.userPhone||b.phone}">📞 Call</a>`:''}
+          </div></div>`;
+      }).join('')+'</div>';
+    }catch(e2){
+      list.innerHTML='<div class="nd">❌ Could not load. Check Firestore rules or Google Sheets.</div>';
+    }
+  }
 };
 
 window.expBks=function(){
@@ -885,28 +1012,102 @@ async function submitBook(){
       <strong>Time:</strong> ${_slot}<br>
       <strong>Booking ID:</strong> ${bk.id}${note?`<br><strong>Note:</strong> ${note}`:''}<br>
       <strong>📌 Location:</strong> <a href="${mapsUrl}" target="_blank" style="color:var(--gold2);text-decoration:none">Open in Google Maps ↗</a>`;
-    if(sendWA){
-      const isMens=_br.type==='mens';
-      const brType=isMens?"Men's Salon":"Unisex Salon";
-      const svcIcon=isMens?'🪒':'💇‍♀️';
-      const typeTip=isMens?`• Fresh haircut, clean shave & grooming\n• Our barbers are ready to give you the perfect look!`:`• Our stylists will give you a premium experience\n• Ladies, Gents & Kids — all welcome!`;
-      const typeClosing=isMens?`Look sharp. Feel confident. 💪\n_Your grooming is our pride!_`:`Look beautiful. Feel amazing. ✨\n_Your style transformation awaits!_`;
-      const typeReminder=isMens?`• Walk in looking good, walk out looking great! 😎`:`• Relax and enjoy your premium salon experience 🌸`;
-      const msg=`Hello ${name}! 👋\n\nYour *V-Cut ${brType}* appointment is ✅ *CONFIRMED!*\n\n━━━━━━━━━━━━━━━━━━━━\n${svcIcon} *BOOKING DETAILS*\n━━━━━━━━━━━━━━━━━━━━\n\n📍 *Branch:* ${_br.name}\n🏷️ *Salon Type:* ${brType}\n💇 *Service:* ${_svc}\n📅 *Date:* ${df}\n⏰ *Time:* ${_slot}\n⏱️ *Open:* ${_br.timing}\n🔖 *Booking ID:* ${bk.id}${note?`\n📝 *Special Request:* ${note}`:''}\n\n📌 *Get Directions:*\n${mapsUrl}\n\n━━━━━━━━━━━━━━━━━━━━\n\n💡 *What to Expect:*\n${typeTip}\n\n📋 *Please Note:*\n• Arrive 5 minutes before your slot\n• Show Booking ID: ${bk.id}\n${typeReminder}\n• For changes: +91 ${_br.phone}\n\n━━━━━━━━━━━━━━━━━━━━\n\nWe are excited to see you! 🌟\n${typeClosing}\n\nThank you for choosing *V-Cut Salon* 💈\n_Bangalore's Most Trusted Salon Chain_\n_15 Branches · L'Oréal Partner_\n\n🌐 vcutsalon.in\n━━━━━━━━━━━━━━━━━━━━`;
-      const wn=phone.replace(/\D/g,'').replace(/^(\d{10})$/,'91$1');
-      document.getElementById('waLink').href=`https://wa.me/${wn}?text=${encodeURIComponent(msg)}`;
-    }else{document.getElementById('waLink').style.display='none';}
     document.getElementById('succCard').classList.add('show');
-    const adminMsg=`🔔 *New V-Cut Booking!*\n\n👤 *Customer:* ${name}\n📞 *Mobile:* ${phone}\n📍 *Branch:* ${_br.name}\n🏷️ *Type:* ${_br.type==='unisex'?'Unisex Salon':"Men's Salon"}\n💇 *Service:* ${_svc}\n📅 *Date:* ${df}\n⏰ *Time:* ${_slot}\n🔖 *ID:* ${bk.id}${note?`\n📝 *Note:* ${note}`:''}\n\n_Sent from vcutsalon.in_`;
-    setTimeout(()=>window.open(`https://wa.me/919836577807?text=${encodeURIComponent(adminMsg)}`,'_blank'),1500);
-    setTimeout(()=>window.open(`https://wa.me/919790906435?text=${encodeURIComponent(adminMsg)}`,'_blank'),3000);
+    window.scrollTo({top:0,behavior:'smooth'});
+
+    // Build confirmation message TO customer (admin sends this from salon number)
+    const isMens=_br.type==='mens';
+    const brType=isMens?"Men's Salon":"Unisex Salon";
+    const svcIcon=isMens?'🪒':'💇‍♀️';
+    const typeTip=isMens?`• Fresh haircut, clean shave & grooming\n• Our barbers are ready to give you the perfect look!`:`• Our stylists will give you a premium experience\n• Ladies, Gents & Kids — all welcome!`;
+    const typeClosing=isMens?`Look sharp. Feel confident. 💪\n_Your grooming is our pride!_`:`Look beautiful. Feel amazing. ✨\n_Your style transformation awaits!_`;
+    const typeReminder=isMens?`• Walk in looking good, walk out looking great! 😎`:`• Relax and enjoy your premium salon experience 🌸`;
+    const mapsLink=`https://maps.google.com/?q=${_br.lat},${_br.lng}`;
+
+    const custConfirmMsg=
+`Hello ${name}! 👋
+
+Your *V-Cut ${brType}* appointment is ✅ *CONFIRMED!*
+
+━━━━━━━━━━━━━━━━━━━━
+${svcIcon} *BOOKING DETAILS*
+━━━━━━━━━━━━━━━━━━━━
+
+📍 *Branch:* ${_br.name}
+🏷️ *Salon Type:* ${brType}
+💇 *Service:* ${_svc}
+📅 *Date:* ${df}
+⏰ *Time:* ${_slot}
+⏱️ *Open:* ${_br.timing}
+🔖 *Booking ID:* ${bk.id}${note?`\n📝 *Special Request:* ${note}`:''}
+
+📌 *Get Directions:*
+${mapsLink}
+
+━━━━━━━━━━━━━━━━━━━━
+
+💡 *What to Expect:*
+${typeTip}
+
+📋 *Please Note:*
+• Arrive 5 minutes before your slot
+• Show Booking ID: ${bk.id}
+${typeReminder}
+• For changes: +91 ${_br.phone}
+
+━━━━━━━━━━━━━━━━━━━━
+
+We are excited to see you! 🌟
+${typeClosing}
+
+Thank you for choosing *V-Cut Salon* 💈
+_Bangalore's Most Trusted Salon Chain_
+_15 Branches · L'Oréal Partner_
+
+🌐 vcutsalon.in
+━━━━━━━━━━━━━━━━━━━━`;
+
+    // Admin alert message
+    const adminAlertMsg=`🔔 *New V-Cut Booking!*\n\n👤 *Customer:* ${name}\n📞 *Mobile:* ${phone}\n📍 *Branch:* ${_br.name}\n🏷️ *Type:* ${brType}\n💇 *Service:* ${_svc}\n📅 *Date:* ${df}\n⏰ *Time:* ${_slot}\n🔖 *ID:* ${bk.id}${note?`\n📝 *Note:* ${note}`:''}\n\n_Sent from vcutsalon.in_`;
+
+    const custWaNum=phone.replace(/\D/g,'').replace(/^(\d{10})$/,'91$1');
+    const custEnc=encodeURIComponent(custConfirmMsg);
+    const alertEnc=encodeURIComponent(adminAlertMsg);
+
+    const an=document.getElementById('adminNotify');
+    if(an){
+      an.innerHTML=`
+        <div style="background:var(--d3);border-radius:var(--r);padding:11px 13px;margin-bottom:8px">
+          <div style="font-size:.74rem;color:var(--gold2);font-weight:700;margin-bottom:6px">📨 Send to Customer: ${name} (${phone})</div>
+          <a href="https://wa.me/${custWaNum}?text=${custEnc}" target="_blank"
+            style="display:flex;align-items:center;justify-content:space-between;background:#25d366;color:#fff;padding:12px 15px;border-radius:var(--r);text-decoration:none;font-weight:700;font-size:.82rem">
+            <span>💬 Send Confirmation to Customer</span>
+            <span style="opacity:.85;font-size:.74rem">+91 ${phone.replace(/\D/g,'').slice(-10)}</span>
+          </a>
+        </div>
+        <div style="background:var(--d3);border-radius:var(--r);padding:11px 13px">
+          <div style="font-size:.74rem;color:#ff9999;font-weight:700;margin-bottom:6px">🔔 Internal Booking Alert</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <a href="https://wa.me/919836577807?text=${alertEnc}" target="_blank"
+              style="display:flex;align-items:center;justify-content:space-between;background:var(--red);color:#fff;padding:11px 15px;border-radius:var(--r);text-decoration:none;font-weight:700;font-size:.8rem">
+              <span>🔔 Alert Admin 1</span>
+              <span style="opacity:.85;font-size:.73rem">+91 98365 77807</span>
+            </a>
+            <a href="https://wa.me/919790906435?text=${alertEnc}" target="_blank"
+              style="display:flex;align-items:center;justify-content:space-between;background:var(--red);color:#fff;padding:11px 15px;border-radius:var(--r);text-decoration:none;font-weight:700;font-size:.8rem">
+              <span>🔔 Alert Admin 2</span>
+              <span style="opacity:.85;font-size:.73rem">+91 97909 06435</span>
+            </a>
+          </div>
+        </div>`;
+    }
   }catch(e){btn.disabled=false;txt.textContent='📅 Confirm Appointment';spn.style.display='none';shBE('Error saving. Please try again.');}
 }
 function shBE(m){const e=document.getElementById('bErr');e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',4000);}
 function resetForm(){
   document.getElementById('bookWrap').style.display='block';
   document.getElementById('succCard').classList.remove('show');
-  document.getElementById('waLink').style.display='';
+  document.getElementById('waLink').style.display='';const an=document.getElementById('adminNotify');if(an){an.style.display='none';an.innerHTML='';}
   document.getElementById('bDate').value='';document.getElementById('bNote').value='';
   _br=null;_svc='';_slot='';
   document.querySelectorAll('.sb,.slot').forEach(el=>el.classList.remove('on'));
