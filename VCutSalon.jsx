@@ -75,6 +75,7 @@ const styles = `
     --s: #FFFFFF; --sv: #F5F5F7; --os: #1D1D1F; --osv: #6E6E73;
     --ol: #86868B; --olv: #D2D2D7;
     --card: #FFFFFF; --nav: rgba(255,255,255,0.72); --thead: #1D1D1F;
+    --panel: linear-gradient(165deg, #D11414 0%, #A80E0E 100%); --panel-ink: #ffffff;
     --e1: 0 1px 2px rgba(0,0,0,.04), 0 1px 3px rgba(0,0,0,.05);
     --e2: 0 4px 14px rgba(0,0,0,.06), 0 2px 6px rgba(0,0,0,.04);
     --e3: 0 12px 34px rgba(0,0,0,.10), 0 4px 12px rgba(0,0,0,.06);
@@ -87,6 +88,7 @@ const styles = `
     --s: #000000; --sv: #141416; --os: #F5F5F7; --osv: #A1A1A6;
     --ol: #8E8E93; --olv: #38383B;
     --card: #1C1C1E; --nav: rgba(22,22,23,0.72); --thead: #2C2C2E;
+    --panel: linear-gradient(180deg, #241417 0%, #0C0709 100%); --panel-ink: #F5F5F7;
     --e1: 0 1px 2px rgba(0,0,0,.5);
     --e2: 0 4px 14px rgba(0,0,0,.5);
     --e3: 0 12px 34px rgba(0,0,0,.6);
@@ -333,7 +335,7 @@ const styles = `
   .loc-btn.primary:hover { background: var(--pd); }
 
   /* BOOKING CTA */
-  #booking-cta { background: var(--p); padding: 88px 20px; }
+  #booking-cta { background: var(--panel); padding: 88px 20px; }
   .bk-inner { max-width: 680px; margin: 0 auto; text-align: center; }
   .bk-inner .sec-eyebrow { color: rgba(255,255,255,.75); }
   .bk-inner .sec-title { color: #fff; margin-bottom: 16px; }
@@ -370,7 +372,7 @@ const styles = `
 
   /* BOOKING PAGE */
   .booking-page { padding-top: 68px; min-height: 100vh; background: var(--s); }
-  .booking-header { background: var(--p); padding: 48px 20px 60px; text-align: center; position: relative; overflow: hidden; }
+  .booking-header { background: var(--panel); padding: 48px 20px 60px; text-align: center; position: relative; overflow: hidden; }
   .booking-header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(0,0,0,.15), transparent); }
   .booking-header-inner { position: relative; z-index: 2; max-width: 600px; margin: 0 auto; }
   .booking-header h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.6rem); color: #fff; margin-bottom: 10px; }
@@ -491,7 +493,7 @@ const styles = `
 
   /* MENU PAGE */
   .menu-page { padding-top: 68px; min-height: 100vh; background: var(--s); }
-  .menu-header { background: var(--p); padding: 52px 20px 64px; text-align: center; position: relative; overflow: hidden; }
+  .menu-header { background: var(--panel); padding: 52px 20px 64px; text-align: center; position: relative; overflow: hidden; }
   .menu-header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(0,0,0,.12), transparent); }
   .menu-toggle-wrap { display: inline-flex; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.2); border-radius: var(--rf); padding: 5px; margin-bottom: 22px; position: relative; z-index: 2; }
   .menu-tt { padding: 11px 30px; border-radius: var(--rf); font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: all .25s; color: rgba(255,255,255,.75); background: transparent; font-family: var(--font-body); letter-spacing: .3px; }
